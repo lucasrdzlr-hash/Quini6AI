@@ -1,0 +1,3 @@
+def leer_stats():
+    ...
+    return lista_numeros

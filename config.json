@@ -1,0 +1,20 @@
+{
+    "archivo_excel":"data/Q2.xlsx",
+
+    "hoja_stats":"Stats",
+
+    "pesos":{
+
+        "sc20":0.30,
+
+        "sc50":0.25,
+
+        "sc100":0.20,
+
+        "historico":0.15,
+
+        "atraso":0.10
+
+    }
+
+}

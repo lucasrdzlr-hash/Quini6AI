@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Entornos virtuales
+.venv/
+venv/
+
+# Logs
+*.log
+
+# Archivos temporales
+*.tmp
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# IDE
+.vscode/
+.idea/
+
+# Excel temporales
+~$*.xlsx
+
+# Salidas generadas
+output/*.csv
+output/*.xlsx
+output/*.json
