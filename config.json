@@ -1,20 +1,10 @@
 {
-    "archivo_excel":"data/Q2.xlsx",
+    "peso_score100": 0.45,
+    "peso_score50": 0.30,
+    "peso_score20": 0.15,
+    "peso_atraso": 0.10,
 
-    "hoja_stats":"Stats",
+    "cantidad_jugadas": 10,
 
-    "pesos":{
-
-        "sc20":0.30,
-
-        "sc50":0.25,
-
-        "sc100":0.20,
-
-        "historico":0.15,
-
-        "atraso":0.10
-
-    }
-
+    "numeros_por_jugada": 6
 }
