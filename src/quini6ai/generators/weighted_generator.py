@@ -1,23 +1,37 @@
-import numpy as np
+import random
+
+from quini6ai.models.jugada import Jugada
 
 
 class WeightedGenerator:
 
     def __init__(self, ranking):
-        self.ranking = ranking.copy()
 
-        self.probabilidades = (
-            self.ranking["score_final"] /
-            self.ranking["score_final"].sum()
-        )
+        self.ranking = ranking
 
-    def generar(self):
+    def generar(self, cantidad):
 
-        numeros = np.random.choice(
-            self.ranking["numero"],
-            size=6,
-            replace=False,
-            p=self.probabilidades
-        )
+        pesos = self.ranking["score_final"].tolist()
 
-        return sorted(numeros.tolist())
+        numeros = self.ranking["numero"].tolist()
+
+        jugadas = []
+
+        while len(jugadas) < cantidad:
+
+            seleccion = random.choices(
+                numeros,
+                weights=pesos,
+                k=6
+            )
+
+            seleccion = sorted(set(seleccion))
+
+            if len(seleccion) != 6:
+                continue
+
+            jugadas.append(
+                Jugada(seleccion)
+            )
+
+        return jugadas

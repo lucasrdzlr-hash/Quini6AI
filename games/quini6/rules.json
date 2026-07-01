@@ -1,0 +1,12 @@
+{
+    "min_suma": 70,
+    "max_suma": 180,
+
+    "min_pares": 2,
+    "max_pares": 4,
+
+    "min_bajos": 2,
+    "max_bajos": 4,
+
+    "max_consecutivos": 2
+}
