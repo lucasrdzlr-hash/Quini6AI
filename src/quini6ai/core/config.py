@@ -6,5 +6,9 @@ def cargar_estrategia(nombre):
 
     archivo = Path("config") / f"{nombre}.json"
 
-    with open(archivo, encoding="utf8") as f:
+    with open(
+        archivo,
+        encoding="utf-8"
+    ) as f:
+
         return json.load(f)

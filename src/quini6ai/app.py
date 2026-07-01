@@ -1,12 +1,13 @@
 from games.quini6.provider import Quini6Provider
+
 from quini6ai.core.feature_engine import FeatureEngine
+from quini6ai.core.score_engine import ScoreEngine
+from quini6ai.core.config import cargar_estrategia
 
 
 class App:
 
     def run(self):
-
-        print("Quini6AI")
 
         provider = Quini6Provider()
 
@@ -14,15 +15,22 @@ class App:
 
         df = FeatureEngine(df).calcular()
 
+        pesos = cargar_estrategia("balanceada")
+
+        ranking = ScoreEngine(
+            df,
+            pesos
+        ).calcular()
+
         print()
 
-        print(df[
-            [
-                "numero",
-                "f_sc20",
-                "f_sc50",
-                "f_sc100",
-                "f_hist",
-                "f_atraso"
-            ]
-        ].head())
+        print(
+            ranking[
+                [
+                    "numero",
+                    "score_final",
+                    "grupo",
+                    "categoria"
+                ]
+            ].head(20)
+        )
