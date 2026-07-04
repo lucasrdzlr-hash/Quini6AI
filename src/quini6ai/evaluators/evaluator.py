@@ -1,30 +1,27 @@
-from src.models.jugada import Jugada
-
-
 class Evaluator:
 
-    @staticmethod
-    def evaluar(jugada: Jugada):
+    def evaluar(self, jugada):
 
-        numeros = sorted(jugada.numeros)
+        numeros = jugada.numeros
 
-        jugada.suma = sum(numeros)
+        pares = sum(1 for n in numeros if n % 2 == 0)
 
-        jugada.pares = sum(1 for n in numeros if n % 2 == 0)
+        bajos = sum(1 for n in numeros if n <= 22)
 
-        jugada.impares = 6 - jugada.pares
+        suma = sum(numeros)
 
-        jugada.bajos = sum(1 for n in numeros if n <= 22)
+        motivos = []
 
-        jugada.altos = 6 - jugada.bajos
+        if pares < 2 or pares > 4:
+            motivos.append("pares")
 
-        consecutivos = 0
+        if bajos < 2 or bajos > 4:
+            motivos.append("bajos")
 
-        for i in range(len(numeros)-1):
+        if suma < 60 or suma > 180:
+            motivos.append("suma")
 
-            if numeros[i+1] == numeros[i] + 1:
-                consecutivos += 1
-
-        jugada.consecutivos = consecutivos
+        jugada.valida = len(motivos) == 0
+        jugada.motivos = motivos
 
         return jugada

@@ -1,0 +1,16 @@
+{
+    "pares": {
+        "min": 2,
+        "max": 4
+    },
+    "suma": {
+        "min": 60,
+        "max": 180
+    },
+    "consecutivos": {
+        "max": 2
+    },
+    "decadas": {
+        "min": 3
+    }
+}
