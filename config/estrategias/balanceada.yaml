@@ -1,0 +1,25 @@
+nombre: Balanceada
+
+descripcion: Estrategia equilibrada para uso general.
+
+plugins:
+
+  promedio:
+    activo: SI
+    prioridad: MUY_ALTA
+
+  atraso:
+    activo: SI
+    prioridad: ALTA
+
+  pares:
+    activo: SI
+    prioridad: MEDIA
+
+  decadas:
+    activo: SI
+    prioridad: MEDIA
+
+  categoria:
+    activo: SI
+    prioridad: BAJA
