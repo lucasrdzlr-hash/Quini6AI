@@ -1,25 +1,50 @@
+# ==========================================
 # Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# ==========================================
 
-# Virtual env
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales
 .venv/
 venv/
+env/
 
-# VSCode
+# ==========================================
+# VS Code
+# ==========================================
+
 .vscode/
 
-# Excel temporales
-~$*.xlsx
+# ==========================================
+# Archivos temporales
+# ==========================================
 
-# Output generado
-output/
-
-# Logs
 *.log
+*.tmp
 
-# Windows
+# ==========================================
+# Bases de datos
+# ==========================================
+
+database/*.db
+database/*.sqlite
+database/*.sqlite3
+
+# ==========================================
+# Archivos generados
+# ==========================================
+
+output/
+*.xlsx
+
+# Excepto los archivos de ejemplo
+!data/Q2.xlsx
+
+# ==========================================
+# Sistema
+# ==========================================
+
 Thumbs.db
-Desktop.ini
+.DS_Store
