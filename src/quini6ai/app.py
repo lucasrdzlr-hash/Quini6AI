@@ -1,16 +1,24 @@
 from games.quini6.provider import Quini6Provider
 
-from quini6ai.core.feature_engine import FeatureEngine
-from quini6ai.core.score_engine import ScoreEngine
+from quini6ai.version import VERSION
+
 from quini6ai.core.config import cargar_estrategia
 from quini6ai.core.strategy_loader import StrategyLoader
 
-from quini6ai.database.migrations import Migration
+from quini6ai.scoring.feature_engine import FeatureEngine
+from quini6ai.scoring.score_engine import ScoreEngine
+from quini6ai.scoring.jugada_score import JugadaScore
 
 from quini6ai.generators.weighted_generator import WeightedGenerator
+
 from quini6ai.evaluators.evaluator import Evaluator
-from quini6ai.scoring.jugada_score import JugadaScore
+
 from quini6ai.writers.excel_writer import ExcelWriter
+
+from quini6ai.database.migrations import Migration
+from quini6ai.database.repositories.ejecuciones_repository import (
+    EjecucionesRepository,
+)
 
 
 class App:
@@ -18,13 +26,13 @@ class App:
     def run(self):
 
         # ---------------------------------------------
-        # Inicialización
+        # Inicialización de la base
         # ---------------------------------------------
 
         Migration().run()
 
         print("===================================")
-        print("          Quini6AI v0.8.5")
+        print(f"        Quini6AI {VERSION}")
         print("===================================\n")
 
         # ---------------------------------------------
@@ -46,8 +54,7 @@ class App:
 
         df = provider.cargar()
 
-        print(f"Registros cargados: {len(df)}")
-        print()
+        print(f"Registros cargados: {len(df)}\n")
 
         # ---------------------------------------------
         # Feature Engineering
@@ -56,7 +63,7 @@ class App:
         df = FeatureEngine(df).calcular()
 
         # ---------------------------------------------
-        # Ranking de números
+        # Ranking
         # ---------------------------------------------
 
         pesos = cargar_estrategia("balanceada")
@@ -130,7 +137,7 @@ class App:
         )
 
         # ---------------------------------------------
-        # Mostrar Top 20
+        # Mostrar jugadas
         # ---------------------------------------------
 
         print("\n=== TOP JUGADAS ===")
@@ -154,6 +161,36 @@ class App:
         )
 
         # ---------------------------------------------
+        # Promedio de score
+        # ---------------------------------------------
+
+        if jugadas_validas:
+
+            promedio = (
+                sum(j.score for j in jugadas_validas)
+                / len(jugadas_validas)
+            )
+
+        else:
+
+            promedio = 0
+
+        # ---------------------------------------------
+        # Registrar ejecución
+        # ---------------------------------------------
+
+        repo = EjecucionesRepository()
+
+        repo.guardar(
+            version=VERSION,
+            estrategia=strategy["nombre"],
+            cantidad_jugadas=len(jugadas_validas),
+            score_promedio=promedio
+        )
+
+        repo.cerrar()
+
+        # ---------------------------------------------
         # Resumen
         # ---------------------------------------------
 
@@ -167,10 +204,7 @@ class App:
 
         if jugadas_validas:
 
-            mejor = jugadas_validas[0].score
-            promedio = sum(j.score for j in jugadas_validas) / len(jugadas_validas)
-
-            print(f"Mejor score          : {mejor:.4f}")
+            print(f"Mejor score          : {jugadas_validas[0].score:.4f}")
             print(f"Score promedio       : {promedio:.4f}")
 
         print("\nProceso finalizado correctamente.")

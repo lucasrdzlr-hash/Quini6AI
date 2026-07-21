@@ -8,17 +8,20 @@ class Migration:
         db = Database()
 
         db.execute("""
-        CREATE TABLE IF NOT EXISTS ejecuciones(
+        CREATE TABLE IF NOT EXISTS ejecuciones (
 
             id INTEGER PRIMARY KEY AUTOINCREMENT,
 
             fecha TEXT,
+
+            version TEXT,
 
             estrategia TEXT,
 
             cantidad_jugadas INTEGER,
 
             score_promedio REAL
+
         )
         """)
 
