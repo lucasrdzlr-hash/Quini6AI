@@ -45,7 +45,7 @@ class SorteosRepository:
             FROM sorteos
             WHERE numero=?
             """,
-            (sorteo.numero,),
+            (numero,),
         )
 
         fila = cursor.fetchone()
