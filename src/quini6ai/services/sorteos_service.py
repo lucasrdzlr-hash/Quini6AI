@@ -1,5 +1,3 @@
-from datetime import datetime
-
 from quini6ai.services.base_service import BaseService
 from quini6ai.models.sorteo import Sorteo
 from quini6ai.database.repositories.sorteos_repository import (
@@ -15,8 +13,40 @@ class SorteosService(BaseService):
 
     def ejecutar(self):
 
+        while True:
+
+            print("\n===================================")
+            print("GESTIÓN DE SORTEOS")
+            print("===================================\n")
+
+            print("1 - Registrar sorteo")
+            print("2 - Ver último sorteo")
+            print("3 - Listar sorteos")
+            print("0 - Volver")
+
+            opcion = input("\nSeleccione una opción: ").strip()
+
+            if opcion == "0":
+                break
+
+            elif opcion == "1":
+                self._registrar()
+
+            elif opcion == "2":
+                self._ultimo()
+
+            elif opcion == "3":
+                self._listar()
+
+            else:
+                print("\nOpción inválida.")
+
+    # -------------------------------------------------
+
+    def _registrar(self):
+
         print("\n===================================")
-        print("REGISTRO DE SORTEOS")
+        print("REGISTRO DE SORTEO")
         print("===================================\n")
 
         try:
@@ -69,3 +99,64 @@ class SorteosService(BaseService):
             print("===================================")
 
             print(e)
+
+    # -------------------------------------------------
+
+    def _ultimo(self):
+
+        repo = SorteosRepository()
+
+        sorteo = repo.ultimo()
+
+        repo.cerrar()
+
+        if sorteo is None:
+
+            print("\nNo hay sorteos registrados.")
+
+            return
+
+        self._mostrar_sorteo(sorteo)
+
+    # -------------------------------------------------
+
+    def _listar(self):
+
+        repo = SorteosRepository()
+
+        sorteos = repo.listar()
+
+        repo.cerrar()
+
+        if not sorteos:
+
+            print("\nNo hay sorteos registrados.")
+
+            return
+
+        print("\n===================================")
+        print("LISTADO DE SORTEOS")
+        print("===================================\n")
+
+        for fila in sorteos:
+
+            print(
+                f"Sorteo {fila[1]} - Fecha {fila[2]}"
+            )
+
+    # -------------------------------------------------
+
+    def _mostrar_sorteo(self, sorteo):
+
+        print("\n===================================")
+        print("ÚLTIMO SORTEO")
+        print("===================================\n")
+
+        print(f"Número: {sorteo.numero}")
+        print(f"Fecha: {sorteo.fecha}")
+        print()
+
+        print(f"Tradicional   : {sorteo.tradicional}")
+        print(f"La Segunda    : {sorteo.segunda}")
+        print(f"Revancha      : {sorteo.revancha}")
+        print(f"Siempre Sale  : {sorteo.siempre_sale}")

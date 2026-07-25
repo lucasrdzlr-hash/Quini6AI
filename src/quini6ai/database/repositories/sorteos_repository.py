@@ -68,7 +68,7 @@ class SorteosRepository:
             """
             SELECT *
             FROM sorteos
-            ORDER BY numero DESC
+            ORDER BY creado_en DESC
             """
         )
 
@@ -79,7 +79,7 @@ class SorteosRepository:
             """
             SELECT *
             FROM sorteos
-            ORDER BY numero DESC
+            ORDER BY creado_en DESC
             LIMIT 1
             """
         )
