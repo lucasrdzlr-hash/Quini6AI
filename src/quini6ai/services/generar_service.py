@@ -2,7 +2,6 @@ from games.quini6.provider import Quini6Provider
 
 from quini6ai.version import VERSION
 
-from quini6ai.core.config import cargar_estrategia
 from quini6ai.core.strategy_loader import StrategyLoader
 
 from quini6ai.scoring.feature_engine import FeatureEngine
@@ -36,7 +35,7 @@ class GenerarService(BaseService):
 
         strategy = self._cargar_estrategia()
 
-        df, ranking = self._generar_ranking()
+        df, ranking = self._generar_ranking(strategy)
 
         jugadas = self._generar_jugadas(ranking)
 
@@ -83,7 +82,7 @@ class GenerarService(BaseService):
 
     # -------------------------------------------------
 
-    def _generar_ranking(self):
+    def _generar_ranking(self, strategy):
 
         provider = Quini6Provider()
 
@@ -95,9 +94,8 @@ class GenerarService(BaseService):
 
         df = FeatureEngine(df).calcular()
 
-        pesos = cargar_estrategia(
-            "balanceada"
-        )
+        pesos = strategy["score"]
+    
 
         ranking = ScoreEngine(
             df,

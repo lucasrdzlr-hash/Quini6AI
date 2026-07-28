@@ -1,21 +1,30 @@
 # Roadmap
 
-## v0.8.5
+v0.8.5 ✔
 
-- SQLite
-- Repositorios
-- Registro de ejecuciones
+Motor funcionando
+SQLite
+Exportación
+Git
 
-## v0.9
+v0.9
 
-- Importador
-- Historial
-- Backtesting
+Historial
 
-## v0.9.5
+Formulario
 
-- Centro de Control
+Backtesting
 
-## v1.0
+Estadísticas persistentes
 
-- Release estable
+v1.0
+
+Aplicación completa
+
+Menú principal
+
+Plugins
+
+Estrategias
+
+Reportes

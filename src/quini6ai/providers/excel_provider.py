@@ -2,7 +2,10 @@ from pathlib import Path
 import pandas as pd
 
 
-class ExcelProvider:
+from quini6ai.providers.base_provider import BaseProvider
+
+
+class ExcelProvider(BaseProvider):
 
     def __init__(self, archivo="data/Q2.xlsx", hoja="Stats"):
         self.archivo = Path(archivo)

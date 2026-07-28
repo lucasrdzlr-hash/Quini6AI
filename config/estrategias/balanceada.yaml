@@ -2,24 +2,82 @@ nombre: Balanceada
 
 descripcion: Estrategia equilibrada para uso general.
 
+version: 1.0
+
+score:
+
+  sc20: 0.30
+  sc50: 0.25
+  sc100: 0.20
+  hist_ap: 0.15
+  atraso: 0.10
+  tendencia: 0.00
+
 plugins:
 
   promedio:
-    activo: SI
-    prioridad: MUY_ALTA
+
+    activo: true
+
+    orden: 10
+
+    peso: 1.0
+
+    parametros:
+
+      ap20: 0.60
+      au20: 0.40
+
+      ap50: 0.60
+      au50: 0.40
+
+      ap100: 0.60
+      au100: 0.40
 
   atraso:
-    activo: SI
-    prioridad: ALTA
+
+    activo: true
+
+    orden: 20
+
+    peso: 1.0
+
+    parametros:
+
+      dias_minimos: 8
 
   pares:
-    activo: SI
-    prioridad: MEDIA
+
+    activo: true
+
+    orden: 30
+
+    peso: 1.0
+
+    parametros:
+
+      minimo: 2
+      maximo: 4
 
   decadas:
-    activo: SI
-    prioridad: MEDIA
+
+    activo: true
+
+    orden: 40
+
+    peso: 1.0
+
+    parametros:
+
+      minimo: 3
+      maximo: 5
 
   categoria:
-    activo: SI
-    prioridad: BAJA
+
+    activo: true
+
+    orden: 50
+
+    peso: 1.0
+
+    parametros: {}
