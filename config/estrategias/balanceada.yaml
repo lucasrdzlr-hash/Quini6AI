@@ -1,27 +1,34 @@
 nombre: Balanceada
 
-descripcion: Estrategia equilibrada para uso general.
+descripcion: Estrategia equilibrada.
 
 version: 1.0
-
 score:
 
-  sc20: 0.30
-  sc50: 0.25
-  sc100: 0.20
-  hist_ap: 0.15
-  atraso: 0.10
-  tendencia: 0.00
+  sc20:
+    peso: 0.30
 
+  sc50:
+    peso: 0.25
+
+  sc100:
+    peso: 0.20
+
+  atraso_norm:
+    peso: 0.10
+
+  hist_ap_norm:
+    peso: 0.15
+
+  tendencia20_100:
+    peso: 0.00
+    
 plugins:
 
   promedio:
 
     activo: true
-
     orden: 10
-
-    peso: 1.0
 
     parametros:
 
@@ -34,38 +41,60 @@ plugins:
       ap100: 0.60
       au100: 0.40
 
+  normalizacion:
+
+    activo: true
+    orden: 15
+    parametros: {}
+
+  tendencia:
+
+    activo: true
+    orden: 18
+    parametros: {}
+
   atraso:
 
     activo: true
-
     orden: 20
-
-    peso: 1.0
 
     parametros:
 
       dias_minimos: 8
 
+
+rules:
+
   pares:
 
     activo: true
-
-    orden: 30
-
-    peso: 1.0
 
     parametros:
 
       minimo: 2
       maximo: 4
 
-  decadas:
+  bajos:
 
     activo: true
 
-    orden: 40
+    parametros:
 
-    peso: 1.0
+      minimo: 2
+      maximo: 4
+
+  suma:
+
+    activo: true
+
+    parametros:
+
+      minimo: 60
+      maximo: 180
+
+  decadas:
+
+    activo: true
 
     parametros:
 
@@ -76,8 +105,12 @@ plugins:
 
     activo: true
 
-    orden: 50
-
-    peso: 1.0
-
     parametros: {}
+
+generator:
+
+  tipo: weighted
+
+  parametros:
+
+    cantidad: 20

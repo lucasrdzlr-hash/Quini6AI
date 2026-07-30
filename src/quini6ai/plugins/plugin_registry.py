@@ -1,8 +1,8 @@
+from quini6ai.plugins.normalizacion_plugin import NormalizacionPlugin
 from quini6ai.plugins.plugin_manager import PluginManager
-
 from quini6ai.plugins.promedio_plugin import PromedioPlugin
 from quini6ai.plugins.tendencia_plugin import TendenciaPlugin
-
+from quini6ai.plugins.atraso_plugin import AtrasoPlugin
 
 class PluginRegistry:
 
@@ -19,4 +19,10 @@ class PluginRegistry:
             TendenciaPlugin()
         )
 
+        manager.registrar(
+            NormalizacionPlugin()
+        )
+        manager.registrar(
+            AtrasoPlugin()
+        )
         return manager

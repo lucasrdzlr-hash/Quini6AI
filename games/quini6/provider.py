@@ -1,31 +1,14 @@
-from pathlib import Path
-import pandas as pd
+from quini6ai.providers.excel_provider import ExcelProvider
 
 
 class Quini6Provider:
 
     def __init__(self):
-
-        self.archivo = Path("data") / "Q2.xlsx"
-        self.hoja = "Stats"
+        self.provider = ExcelProvider()
 
     def cargar(self):
 
-        if not self.archivo.exists():
-            raise FileNotFoundError(
-                f"No existe {self.archivo}"
-            )
-
-        df = pd.read_excel(
-            self.archivo,
-            sheet_name=self.hoja
-        )
-
-        df.columns = (
-            df.columns
-            .str.strip()
-            .str.lower()
-        )
+        df = self.provider.cargar()
 
         columnas = [
             "numero",
@@ -42,7 +25,7 @@ class Quini6Provider:
             "ult_salida",
             "atraso",
             "grupo",
-            "categoria"
+            "categoria",
         ]
 
         return df[columnas]

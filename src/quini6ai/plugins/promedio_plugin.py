@@ -9,24 +9,24 @@ class PromedioPlugin(BasePlugin):
 
     def ejecutar(self, df, configuracion):
 
-        parametros = configuracion["parametros"]
+        df = df.copy()
 
         df["sc20"] = (
-            df["ap20"] * parametros["ap20"] / 20
+            df["ap20"] * configuracion["ap20"] / 20
             +
-            df["au20"] * parametros["au20"] / 20
+            df["au20"] * configuracion["au20"] / 20
         )
 
         df["sc50"] = (
-            df["ap50"] * parametros["ap50"] / 50
+            df["ap50"] * configuracion["ap50"] / 50
             +
-            df["au50"] * parametros["au50"] / 50
+            df["au50"] * configuracion["au50"] / 50
         )
 
         df["sc100"] = (
-            df["ap100"] * parametros["ap100"] / 100
+            df["ap100"] * configuracion["ap100"] / 100
             +
-            df["au100"] * parametros["au100"] / 100
+            df["au100"] * configuracion["au100"] / 100
         )
 
         return df

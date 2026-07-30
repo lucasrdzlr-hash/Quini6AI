@@ -1,16 +1,13 @@
 from games.quini6.provider import Quini6Provider
-
+from quini6ai.plugins.plugin_registry import PluginRegistry
+from quini6ai.rules.rule_registry import RuleRegistry
 from quini6ai.version import VERSION
-
+from quini6ai.rules.rule_registry import RuleRegistry
 from quini6ai.core.strategy_loader import StrategyLoader
-
+from quini6ai.generators.generator_registry import GeneratorRegistry
 from quini6ai.scoring.feature_engine import FeatureEngine
 from quini6ai.scoring.score_engine import ScoreEngine
 from quini6ai.scoring.jugada_score import JugadaScore
-
-from quini6ai.generators.weighted_generator import WeightedGenerator
-
-from quini6ai.evaluators.evaluator import Evaluator
 
 from quini6ai.writers.excel_writer import ExcelWriter
 
@@ -37,11 +34,15 @@ class GenerarService(BaseService):
 
         df, ranking = self._generar_ranking(strategy)
 
-        jugadas = self._generar_jugadas(ranking)
+        jugadas = self._generar_jugadas(
+            ranking,
+            strategy
+        )
 
         jugadas_validas = self._evaluar_jugadas(
             jugadas,
-            ranking
+            ranking,
+            strategy
         )
 
         self._exportar(jugadas_validas)
@@ -92,10 +93,15 @@ class GenerarService(BaseService):
             f"Registros cargados: {len(df)}\n"
         )
 
-        df = FeatureEngine(df).calcular()
+        # Ejecuta todos los plugins activos
+        manager = PluginRegistry.crear()
+
+        df = manager.ejecutar(
+            df,
+            strategy
+        )
 
         pesos = strategy["score"]
-    
 
         ranking = ScoreEngine(
             df,
@@ -120,13 +126,24 @@ class GenerarService(BaseService):
 
     # -------------------------------------------------
 
-    def _generar_jugadas(self, ranking):
+    def _generar_jugadas(
+        self,
+        ranking,
+        strategy
+    ):
 
-        generator = WeightedGenerator(
-            ranking
+        manager = GeneratorRegistry.crear()
+
+        config = strategy["generator"]
+
+        generator = manager.obtener(
+            strategy["generator"]["tipo"]
         )
 
-        jugadas = generator.generar(20)
+        jugadas = generator.generar(
+            ranking,
+            config["parametros"]["cantidad"]
+        )
 
         print(
             f"\nJugadas generadas: {len(jugadas)}"
@@ -136,24 +153,26 @@ class GenerarService(BaseService):
 
 
     # -------------------------------------------------
-
     def _evaluar_jugadas(
         self,
         jugadas,
-        ranking
+        ranking,
+        strategy
     ):
 
-        evaluator = Evaluator()
+        
+        manager = RuleRegistry.crear()
 
         jugadas_validas = []
 
         for jugada in jugadas:
 
-            jugada = evaluator.evaluar(
-                jugada
-            )
+            if manager.validar(
+                jugada,
+                strategy
+            ):
 
-            if jugada.valida:
+                jugada.valida = True
 
                 jugadas_validas.append(
                     jugada
@@ -172,12 +191,10 @@ class GenerarService(BaseService):
                 ranking
             )
 
-
         jugadas_validas.sort(
             key=lambda j: j.score,
             reverse=True
         )
-
 
         print("\n=== TOP JUGADAS ===")
 
@@ -185,7 +202,6 @@ class GenerarService(BaseService):
             jugadas_validas,
             start=1
         ):
-
             print(
                 f"{posicion:02d} | "
                 f"Score {jugada.score:.4f} | "
@@ -193,6 +209,7 @@ class GenerarService(BaseService):
             )
 
         return jugadas_validas
+    
 
 
     # -------------------------------------------------

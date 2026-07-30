@@ -1,19 +1,24 @@
 import random
 
+from quini6ai.generators.base_generator import BaseGenerator
 from quini6ai.models.jugada import Jugada
 
 
-class WeightedGenerator:
+class WeightedGenerator(BaseGenerator):
 
-    def __init__(self, ranking):
+    @property
+    def nombre(self):
+        return "weighted"
 
-        self.ranking = ranking
+    def generar(
+        self,
+        ranking,
+        cantidad
+    ):
 
-    def generar(self, cantidad):
+        pesos = ranking["score_final"].tolist()
 
-        pesos = self.ranking["score_final"].tolist()
-
-        numeros = self.ranking["numero"].tolist()
+        numeros = ranking["numero"].tolist()
 
         jugadas = []
 

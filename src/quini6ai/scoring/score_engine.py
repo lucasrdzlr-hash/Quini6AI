@@ -1,26 +1,31 @@
 class ScoreEngine:
 
-    def __init__(self, df, pesos):
+    def __init__(self, df, score_config):
+
         self.df = df.copy()
-        self.pesos = pesos
+        self.score_config = score_config
 
     def calcular(self):
 
-        self.df["score_final"] = (
+        self.df["score_final"] = 0.0
 
-            self.df["sc100"] * self.pesos["sc100"]
+        for columna, config in self.score_config.items():
 
-            + self.df["sc50"] * self.pesos["sc50"]
+            peso = config.get("peso", 0)
 
-            + self.df["sc20"] * self.pesos["sc20"]
+            if columna not in self.df.columns:
 
-            + self.df["atraso_norm"] * self.pesos["atraso"]
+                print(
+                    f"Aviso: '{columna}' no existe."
+                )
 
-            + self.df["hist_ap_norm"] * self.pesos["hist_ap"]
+                continue
 
-            + self.df["tendencia20_100"] * self.pesos["tendencia"]
+            self.df["score_final"] += (
 
-        )
+                self.df[columna] * peso
+
+            )
 
         return self.df.sort_values(
             "score_final",
