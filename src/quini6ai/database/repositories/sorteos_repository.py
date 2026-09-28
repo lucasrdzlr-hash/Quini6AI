@@ -53,6 +53,15 @@ class SorteosRepository:
             ),
         )
 
+    def guardar_lote(self, sorteos):
+        for sorteo in sorteos:
+            self.guardar(
+                numero_sorteo=sorteo["numero_sorteo"],
+                fecha=sorteo["fecha"],
+                modalidad=sorteo["modalidad"],
+                numeros=sorteo["numeros"],
+            )
+
     def listar(self, limite=20):
         cursor = self.db.execute(
             """
